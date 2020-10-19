@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     <typeAlias type="com.dto.QnaDTO" alias="QnaDTO"/>   
     <typeAlias type="com.dto.JusoDTO" alias="JusoDTO"/>   
     <typeAlias type="com.dto.DayDTO" alias="DayDTO"/>   
-    <typeAlias type="com.dto.TravleDTO" alias="TravleDTO"/>   
+    <typeAlias type="com.dto.TravelDTO" alias="TravelDTO"/>   
     <typeAlias type="com.dto.NewsDTO" alias="NewsDTO"/>   
     <typeAlias type="com.dto.DictionDTO" alias="DictionDTO"/>   
     </typeAliases>   
