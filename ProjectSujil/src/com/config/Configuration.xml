@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+   <properties resource="com/config/jdbc.properties" />   
+   <typeAliases>
+    <typeAlias type="com.dto.AdminDTO" alias="AdminDTO"/>   
+    <typeAlias type="com.dto.QnaDTO" alias="QnaDTO"/>   
+    <typeAlias type="com.dto.JusoDTO" alias="JusoDTO"/>   
+    <typeAlias type="com.dto.DayDTO" alias="DayDTO"/>   
+    <typeAlias type="com.dto.TravleDTO" alias="TravleDTO"/>   
+    <typeAlias type="com.dto.NewsDTO" alias="NewsDTO"/>   
+    <typeAlias type="com.dto.DictionDTO" alias="DictionDTO"/>   
+    </typeAliases>   
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${xxx}" />
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="com/config/AdminMapper.xml" />
+		<mapper resource="com/config/QnaMapper.xml" />
+		<mapper resource="com/config/JusoMapper.xml" />
+	</mappers>
+</configuration>
+
+
+
