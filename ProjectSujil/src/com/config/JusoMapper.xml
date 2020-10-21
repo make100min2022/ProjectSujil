@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="JusoMapper">
+
+	<select id="setSigun" resultType="String" parameterType="String">
+		select sigun
+		from admin_district
+		where substr(sgccd, 0, 2) = #{sido}
+		group by sigun
+	</select>
+	
+	<select id="setDong" resultType="String" parameterType="String">
+		select dong
+		from admin_district
+		where sigun = #{sigun}
+	</select>
+
+	<select id="searchCode" resultType="JusoDTO" parameterType="HashMap">
+		select sgccd, sitecd
+		from admin_district
+		where sigun = #{sigun} and dong = #{dong}
+	</select>
+</mapper>
