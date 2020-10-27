@@ -15,6 +15,15 @@
 <script src="js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
 <script src="js/jquery-ui-1.12.1/datepicker-ko.js"></script>
 <script type="text/javascript" src="js/jquery-3.5.1.min.js"></script> -->
+<!-- <style type="text/css">
+	input.img-button {
+		background: url("images/button_info.jpg") no-repeat;
+		border: none;
+		width: 32px;
+		height: 32px;
+		cursor: pointer;
+	}
+</style> -->
 <script type="text/javascript">
 	//조회 시 시도, 시군, 동 파라미터 담을 전역변수
 	var globalParam1 = "";
@@ -37,7 +46,7 @@
 				dataType: "text",
 				//contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 				data:{
-					sido : $("#sido option:selected").val()
+					sido : $("#sido option:selected").text()
 				},
 				success: function (data, status, xhr) {
 					var data = decodeURIComponent(data);
@@ -58,7 +67,7 @@
 					console.log(e);
 				}
 			});
-			console.log( $("#sigun").val());
+			console.log($("#sigun").val());
 		});
 
 		//시군 변경에 따른 읍면동 세팅
@@ -91,6 +100,7 @@
 					console.log(e);
 				}
 			});
+			console.log($("#dong").val());
 		});
 		
 		//조회 버튼 클릭 시 시도, 시군, 동 값 유효성 검사 후 DayDataServlet으로 이동
@@ -98,6 +108,11 @@
 			var sido = $("#sido option:selected").text();
 			var sigun = $("#sigun option:selected").val().trim();
 			var dong = $("#dong option:selected").val().trim();
+			
+			if($("#stdt").text() == " " || $("#eddt").text() == " ") {
+				alert("조회할 날짜를 선택하세요.");
+				return false;
+			};
 			
 			if(sido == "선택하세요.") {
 				alert("검색할 지역을 모두 선택하세요.");
@@ -114,6 +129,7 @@
 			
 			var stdt = $("#stdt").datepicker().val();
 			var eddt = $("#eddt").datepicker().val();
+
 			console.log(stdt);
 			console.log(eddt);
 			$("form").attr("action", "DayDataServlet?sigun=" + sigun + "&dong=" + dong
@@ -135,7 +151,7 @@
             dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'], 
             monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
             monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-            dateFormat: "yymmdd",
+            dateFormat: "yy-mm-dd",
             maxDate: 0,                       // 선택할수있는 최소날짜, ( 0 : 오늘 이후 날짜 선택 불가)
             onClose: function(selectedDate) {    
                  //시작일(startDate) datepicker가 닫힐때
@@ -155,7 +171,7 @@
             dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],//요일의 한글 형식
             monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],//월의 한글 형식
             monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],//표시할 월 이름 설정
-            dateFormat: "yymmdd",//텍스트필드에 입력되는 날짜 형식
+            dateFormat: "yy-mm-dd",//텍스트필드에 입력되는 날짜 형식
             maxDate: 0,//선택할수있는 최대날짜, ( 0 : 오늘 이후 날짜 선택 불가)
             onClose: function(selectedDate) {    
                 // 종료일(endDate) datepicker가 닫힐때
@@ -166,11 +182,22 @@
 	    //datepicker에서 선택된 시작일, 종료일 DayDataServlet으로 전달
 	    
 	});
+
 </script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
+<%
+	String mesg = (String)request.getAttribute("mesg");
+	if(mesg != null) {
+%>
+	<script type="text/javascript">
+	alert('<%= mesg %>');
+	</script>
+<%
+	}
+%>
 <h2>일별 수질정보 조회</h2>
 <div>
 <p>조회 날짜 선택</p>
@@ -217,7 +244,7 @@
     </form>
 </div>
 <%
-	List<DayDTO> dList = (List<DayDTO>)session.getAttribute("dList");
+	List<DayDTO> dList = (List<DayDTO>)request.getAttribute("dList");
 	if(dList != null){
 %>
 <br>
@@ -226,12 +253,12 @@
 <table border="1">
 	<tr>
 		<th>검사년월</th>
-		<th>냄새(적부)</th>
-		<th>맛(적부)</th>
-		<th>색도(5이하)</th>
-		<th>pH(5.8~8.%)</th>
-		<th>탁도(0.5이하)</th>
-		<th>잔류염소(4이하)</th>
+		<th>냄새(적부) <img src="images/button_info.png" width="20" height="20"/></th>
+		<th>맛(적부) <img src="images/button_info.png" width="20" height="20"/></th>
+		<th>색도(5이하) <img src="images/button_info.png" width="20" height="20"/></th>
+		<th>pH(5.8~8.%) <img src="images/button_info.png" width="20" height="20"/></th>
+		<th>탁도(0.5이하) <img src="images/button_info.png" width="20" height="20"/></th>
+		<th>잔류염소(4이하) <img src="images/button_info.png" width="20" height="20"/></th>
 	</tr>
 <%
 		for(int i = 0; i < dList.size(); i++){

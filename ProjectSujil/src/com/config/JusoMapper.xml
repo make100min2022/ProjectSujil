@@ -7,14 +7,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="setSigun" resultType="String" parameterType="String">
 		select sigun
 		from admin_district
-		where substr(sgccd, 0, 2) = #{sido}
+		where sido = #{sido}
 		group by sigun
+		order by sigun
 	</select>
 	
 	<select id="setDong" resultType="String" parameterType="String">
 		select dong
 		from admin_district
 		where sigun = #{sigun}
+		order by dong
 	</select>
 
 	<select id="searchCode" resultType="JusoDTO" parameterType="HashMap">
