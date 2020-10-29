@@ -1,23 +1,88 @@
-<%@page import="com.dto.WeekDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="com.dto.JusoDTO" %>
-<%@ page import="com.dto.DayDTO" %>
 <%@ page import="java.util.List" %>
+<%@page import="com.dto.WeekDTO"%>
 
 <!DOCTYPE html>
 <html>
 <head>
-
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css"/>  
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
+<script	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-  
-<!--<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script> 
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
- <script type="text/javascript" src="js/jquery-3.5.1.min.js"></script> -->
+<!-- <link rel="stylesheet" href="js/jquery-ui-1.12.1/jquery-ui.min.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+<script src="js/jquery-ui-1.12.1/datepicker-ko.js"></script>
+<script type="text/javascript" src="js/jquery-3.5.1.min.js"></script> -->
+<style type="text/css">
+/* 공통옵션 */
+ul li {list-style:none; }
+.fl {float:left; }
+.tc {text-align:center; }
+
+/* 게시판 목록 */
+.board {width: 1180px; }
+.w90 {width:90px; }
+.w160 {width:160px; }
+.w180 {width:180px; }
+.w200 {width:200px; }
+.w220 {width:220px; }
+.title {
+	height: 50px;
+	line-height: 50px;
+	background:skyblue;
+	font-weight: bold;
+}
+.t_line {border-right:solid 1px gray;}
+.lt_line {border-bottom:solid 1px gray;}
+.list {
+	height: 40px;
+	line-height: 40px;
+	background: #f3f3f3;
+}
+
+
+	.modal_wrap {
+		display: none;
+		width: 300px;
+		height: 250px;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		margin: -250px 0 0 -250px;
+		background: #eee;
+		z-index: 2;
+	}
+	
+	.black_bg {
+		display: none;
+		position: absolute;
+		content: "";
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		top: 0;
+		left: 0;
+		z-index: 1;
+	}
+	
+	.modal_close {
+		width: 26px;
+		height: 26px;
+		position: absolute;
+		top: -30px;
+		right: 0;
+	}
+	
+	.modal_close>a {
+		display: block;
+		width: 100%;
+		height: 100%;
+		background: url(https://img.icons8.com/metro/26/000000/close-window.png);
+		text-indent: -9999px;
+}
+</style>
 <script type="text/javascript">
 	//조회 시 시도, 시군, 동 파라미터 담을 전역변수
 	var globalParam1 = "";
@@ -136,7 +201,7 @@
 				//return false;
 			});
 		
-		
+		//달력 기본 설정
 		$.datepicker.setDefaults($.datepicker.regional['ko']);
 		
 		 $("#stdt").datepicker({
@@ -177,6 +242,60 @@
 		            $("#stdt").datepicker("option","maxDate",selectDate);
 		        }
 		    });
+		 
+		 /* function onClick() {
+		        document.querySelector('.modal_wrap').style.display ='block';
+		        document.querySelector('.black_bg').style.display ='block';
+		    }   
+		    function offClick() {
+		        document.querySelector('.modal_wrap').style.display ='none';
+		        document.querySelector('.black_bg').style.display ='none';
+		    }
+		 
+		    document.getElementById('modal_btn').addEventListener('click', onClick);
+		    document.querySelector('.modal_close').addEventListener('click', offClick); */
+		    
+		 $('.modal_btn').on('click', function () {
+		    	var id = $(this).attr("data-xxx");
+		    	console.log(id);
+		    	document.querySelector(".modal_wrap").style.display ='block';
+		    	if(id == "modalBacteria"){
+		    		document.querySelector("#modalBacteria").style.display ='block';
+		    	} else if(id == "modalTotalColi"){
+		    		document.querySelector("#modalTotalColi").style.display ='block';
+		    	} else if(id == "modalColi"){
+		    		document.querySelector("#modalColi").style.display ='block';
+		    	} else if(id == "modalAmmonia"){
+		    		document.querySelector("#modalAmmonia").style.display ='block';
+		    	} else if(id == "modalNnitrogen"){
+		    		document.querySelector("#modalNnitrogen").style.display ='block';
+		    	} else if(id == "modalEvaresi"){
+		    		document.querySelector("#modalEvaresi").style.display ='block';
+		    	}
+		    	document.querySelector('.black_bg').style.display ='block';
+			});
+		    
+			$('.modal_close').on('click', function () {
+				var id = $(this).attr("data-xxx");
+		    	console.log(id);
+		    	document.querySelector(".modal_wrap").style.display ='none';
+		    	if(id == "modalBacteria"){
+		    		document.querySelector("#modalBacteria").style.display ='none';
+		    	} else if(id == "modalTotalColi"){
+		    		document.querySelector("#modalTotalColi").style.display ='none';
+		    	} else if(id == "modalColi"){
+		    		document.querySelector("#modalColi").style.display ='none';
+		    	} else if(id == "modalAmmonia"){
+		    		document.querySelector("#modalAmmonia").style.display ='none';
+		    	} else if(id == "modalNnitrogen"){
+		    		document.querySelector("#modalNnitrogen").style.display ='none';
+		    	} else if(id == "modalEvaresi"){
+		    		document.querySelector("#modalEvaresi").style.display ='none';
+		    	}
+		    	document.querySelector('.black_bg').style.display ='none';
+			});
+		    
+		    
 	});
 </script>
 <meta charset="UTF-8">
@@ -250,16 +369,15 @@ alert('<%=mesg%>'
 %>
 <h3>수질정보</h3>
 
-<table border="1">
-	<tr>
-		<th>측정일</th>
-		<th>일반 세균(CFU/mL)<img src="img/but.png" width="20pt" height="20pt"></th>
-		<th>총 대장균(/100mL)<img src="img/but.png" width="20pt" height="20pt"></th>
-		<th>대장균/분원성대장균(/100mL)<img src="img/but.png" width="20pt" height="20pt"></th>
-		<th>암모니아성질소(mg/L)<img src="img/but.png" width="20pt" height="20pt"></th>
-		<th>질산성질소(mg/L)<img src="img/but.png" width="20pt" height="20pt"></th>
-		<th>증발잔류물(mg/L)<img src="img/but.png" width="20pt" height="20pt"></th>
-	</tr>
+<ul class="board">
+		<li class="fl tc w90 title t_line">측정일</li>
+		<li class="fl tc w160 title t_line">일반 세균(CFU/mL)<img src="img/inf_but.png" width="20pt" height="20pt"	 class="modal_btn" data-xxx="modalBacteria"></li>
+		<li class="fl tc w160 title t_line">총 대장균(/100mL)<img src="img/inf_but.png" width="20pt" height="20pt" class="modal_btn" data-xxx="modalTotalColi"></li>
+		<li class="fl tc w220 title t_line">대장균/분원성대장균(/100mL)<img src="img/inf_but.png" width="20pt" height="20pt" class="modal_btn" data-xxx="modalColi"></li>
+		<li class="fl tc w200 title t_line">암모니아성질소(mg/L)<img src="img/inf_but.png" width="20pt" height="20pt" class="modal_btn" data-xxx="modalAmmonia"></li>
+		<li class="fl tc w160 title t_line">질산성질소(mg/L)<img src="img/inf_but.png" width="20pt" height="20pt" class="modal_btn" data-xxx="modalNnitrogen"></li>
+		<li class="fl tc w160 title t_line">증발잔류물(mg/L)<img src="img/inf_but.png" width="20pt" height="20pt" class="modal_btn" data-xxx="modalEvaresi"></li>
+	</ul>
 <%
 		for(int i = 0; i < wList.size(); i++){
 			WeekDTO wDTO = wList.get(i);
@@ -271,21 +389,41 @@ alert('<%=mesg%>'
 			String Nnitrogen = wDTO.getNnitrogen();
 			String Evaresi = wDTO.getEvaresi();
 %>
-	<tr>
-		<td><%= cltdt %></td>
-		<td><%= bacteria %></td>
-		<td><%= TotalColita %></td>
-		<td><%= Coli %></td>
-		<td><%= Ammonia %></td>
-		<td><%= Nnitrogen %></td>
-		<td><%= Evaresi %></td>
-	</tr>
+	<ul class="board">
+		<li class="fl tc w90 list t_line lt_line"><%= cltdt %></li>
+		<li class="fl tc w160 list t_line lt_line"><%= bacteria %></li>
+		<li class="fl tc w160 list t_line lt_line"><%= TotalColita %></li>
+		<li class="fl tc w220 list t_line lt_line"><%= Coli %></li>
+		<li class="fl tc w200 list t_line lt_line"><%= Ammonia %></li>
+		<li class="fl tc w160 list t_line lt_line"><%= Nnitrogen %></li>
+		<li class="fl tc w160 list t_line lt_line"><%= Evaresi %></li>
+	</ul>
 <%
 		}//end for
 %>
-</table>
+
 <%	
 	}//end if
 %>
+<div class="black_bg"></div>
+	<div class="modal_wrap">
+		<div class="modal_close">
+			<a href="#">close</a>
+		</div>
+		<div class="modal_wrap" id="modalBacteria">수중에서 활동하는 병원균 이외의 호기성균이나 혐기성균의 총칭한다. 일반적으로 무해한 잡균으로 알려지고 있으나, 
+		병원균이 존재할 가능성이 있다. 수돗물 기준에서는 집락수를 1ml 속에 100 이하로 규정하고 있다.</div>
+		<div class="modal_wrap" id="modalTotalColi">사람과 동물의 장내에서 기생하는 대장균 및 대장균과 유사한 성질을 가진 균의 총칭한다.  
+		일반적으로 무해한 잡균으로 알려지고 있으나, 병원균이 존재할 가능성이 있다.</div>
+		<div class="modal_wrap" id="modalColi">사람과 동물의 장내에서 기생하는 세균으로 호흡과 발효작용으로 신진대사 작용을 한다. 인체위해성은 
+		설사, 경련, 구역질, 두통 또는 기타 증상등 단기간의 영향을 줄 수 있으며, 면역체계가 약한 사람에게는 특별한 위험을 야기할 수 있다.</div>
+		<!-- <div class="modal_wrap" id="modalAmmonia">사람과 동물의 장내에서 기생하는 대장균 및 대장균과 유사한 성질을 가진 균의 총칭이며, 인체위해성 설사, 경련, 구역질, 두통 
+		또는 기타증상등 단기간의 영향을 줄 수 있다. 면역체계가 약한 사람에게는 특별한 위험을 야기할 수 있다.</div> -->
+		<div class="modal_wrap" id="modalAmmonia">암모늄염을 질소량으로 나타낸 것으로 그 존재는 분뇨 공장폐수로 유래한다. 이것은 물의 오염지표로서 중요할 뿐더러 수역 부영양화의 요인으로서, 
+		또 자정작용 등에 아질산성 질소 과잉으로 인한 장애를 평가하는 데도 중요하다.</div>
+		<div class="modal_wrap" id="modalNnitrogen">암모늄염을 질소량으로 나타낸 것으로 그 존재는 분뇨 공장폐수로 유래한다. 이것은 물의 오염지표로서 중요할 뿐더러 
+		수역 부영양화의 요인으로서, 또 자정작용 등에 아질산성 질소 과잉으로 인한 장애를 평가하는 데도 중요하다.</div>
+		<div class="modal_wrap" id="modalEvaresi">질산염을 질소량으로 나타낸 것으로서 주로 암모니아성 질소가 질화균의 작용으로 산화되어 생성한다.  유기물 속의 
+		질소 화합물이 산화 분해해 무기화한 최종 산물이며, 과거에는 유기 오염의 정도를 나타냈다. 상수도의 수질 기준에서는 10ppm이 한도로 정해져 있다.</div>
+	</div>
 </body>
 </html>
