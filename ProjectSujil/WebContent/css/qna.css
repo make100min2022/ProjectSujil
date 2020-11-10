@@ -1,0 +1,11 @@
+#qnaDiv{ 
+	background-color: teal;
+	display:flex;
+	width: 50%;
+	margin-left: 25%;
+	flex-direction: column;
+}
+#boardHead{
+	
+	margin-left: 15%;
+}

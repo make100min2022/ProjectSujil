@@ -3,5 +3,36 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="QnaMapper">
+ 
+ 
+   <insert id="qnaAdd" parameterType="QnaDTO" >
+   	insert into qna (qnum, qtitle, qusername, qpasswd4, qemail, qcontent, qhide)
+   	values(qna_seq.nextval,#{Qtitle}, #{Qusername}, #{Qpasswd4}, #{Qemail}, #{Qcontent}, #{Qhide})
+   </insert>
 
+	<delete id="qnaDel" parameterType="string">
+	delete from qna
+	where qnum=#{qnum}
+	</delete>
+
+	<select id="qnaRead" resultType="QnaDTO">
+	select *
+	from qna order by qnum desc
+	</select>
+	<select id="qnaUpdateRead" parameterType="String" resultType="QnaDTO">
+	select *
+	from qna 
+	where qnum = #{qnum}
+	</select>
+	
+	<update id="qnaReplyUpdate" parameterType="QnaDTO">
+		update qna 
+		set qreply = #{qreply}
+		where qnum = #{qnum}
+	</update>
+	<update id="qnaUpdate" parameterType="QnaDTO">
+		update qna 
+		set qtitle = #{qtitle}, qusername =#{Qusername}, qpasswd4=#{Qpasswd4},qemail=#{Qemail},qcontent=#{Qcontent},qhide=#{Qhide}
+		where qnum = #{qnum}
+	</update>
 </mapper>
